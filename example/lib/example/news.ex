@@ -6,5 +6,6 @@ defmodule Example.News do
 
   resources do
     resource Example.Article
+    resource Example.Video
   end
 end

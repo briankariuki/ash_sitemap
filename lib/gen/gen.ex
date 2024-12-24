@@ -47,7 +47,7 @@ defmodule AshSitemap.Gen do
 
     parsed =
       Keyword.put_new_lazy(rest, :resource_plural, fn ->
-        ""
+        plural_name!(resource, parsed)
       end)
 
     parsed =
@@ -61,5 +61,36 @@ defmodule AshSitemap.Gen do
       end)
 
     {domain, resource, parsed, rest}
+  end
+
+  defp plural_name!(resource, opts) do
+    plural_name =
+      opts[:resource_plural] ||
+        Ash.Resource.Info.plural_name(resource) ||
+        Mix.shell().prompt(
+          """
+          Please provide a plural_name for #{inspect(resource)}. For example the plural of tweet is tweets.
+
+          This can also be configured on the resource. To do so, press enter to abort,
+          and add the following configuration to your resource (using the proper plural name)
+
+              resource do
+                plural_name :tweets
+              end
+          >
+          """
+          |> String.trim()
+        )
+        |> String.trim()
+
+    case plural_name do
+      empty when empty in ["", nil] ->
+        raise(
+          "Must configure `plural_name` on resource or provide --resource-plural"
+        )
+
+      plural_name ->
+        to_string(plural_name)
+    end
   end
 end

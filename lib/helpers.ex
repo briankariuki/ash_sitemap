@@ -118,8 +118,8 @@ defmodule AshSitemap.Helpers do
         query: d.query || s.query,
         scheme: d.scheme || s.scheme,
         userinfo: d.userinfo || s.userinfo,
-        fragment: d.fragment || s.fragment,
-        authority: d.authority || s.authority
+        fragment: d.fragment || s.fragment
+        # authority: d.authority || s.authority
       )
     )
   end
