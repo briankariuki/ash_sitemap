@@ -1,8 +1,3 @@
-defprotocol AshSitemap.Generator do
-  @spec generate(t) :: [String.t()]
-  def generate(value)
-end
-
 defmodule AshSitemap.Transformer do
   @moduledoc false
 
@@ -21,7 +16,7 @@ defmodule AshSitemap.Transformer do
 
     # customize = Spark.Dsl.Transformer.get_option(dsl, [:jason], :customize, &AshJason.Transformer.default_customize/2)
 
-    defimpl AshSitemap.Generator, for: dsl.persist.module do
+    defimpl AshSitemap.Generate, for: dsl.persist.module do
       @host host
       @compress compress
       @urls urls

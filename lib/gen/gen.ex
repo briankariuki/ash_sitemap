@@ -1,4 +1,4 @@
-defmodule AshSitemap.Generate do
+defmodule AshSitemap.Gen do
   @moduledoc false
 
   @urls_limit 50000

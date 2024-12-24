@@ -1,7 +1,7 @@
-defmodule AshSitemap.Generate.Sitemap do
+defmodule AshSitemap.Gen.Sitemap do
   @moduledoc false
   def generate_from_cli(argv) do
-    {domain, resource, opts, _rest} = AshSitemap.Generate.parse_opts(argv)
+    {domain, resource, opts, _rest} = AshSitemap.Gen.parse_opts(argv)
 
     generate(
       domain,
@@ -136,7 +136,7 @@ defmodule AshSitemap.Generate.Sitemap do
       end,
       & &1
     )
-    |> Stream.map(&AshSitemap.Generator.generate/1)
+    |> Stream.map(&AshSitemap.Generate.generate/1)
     |> Stream.each(fn xml_urls ->
       urls = List.flatten(xml_urls)
       IO.write(file, urls)
