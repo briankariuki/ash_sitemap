@@ -38,10 +38,11 @@ defmodule AshSitemap.MixProject do
 
   defp deps do
     [
-      {:ash, "~> 3.2"},
+      {:ash, "~> 3.4"},
       {:xml_builder, "~> 2.1"},
       {:spark, "~> 2.2.10 and < 3.0.0"},
-      {:ex_doc, "~> 0.32", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.32", only: :dev, runtime: false},
+      {:ecto_sql, "~> 3.10"}
     ]
   end
 
@@ -54,7 +55,9 @@ defmodule AshSitemap.MixProject do
       extras: [
         "README.md": [title: "Guide"],
         "LICENSE.md": [title: "License"],
-        "documentation/dsls/DSL:-AshSitemap.Resource.md": [title: "DSL: AshSitemap.Resource"]
+        "documentation/dsls/DSL:-AshSitemap.Resource.md": [
+          title: "DSL: AshSitemap.Resource"
+        ]
       ]
     ]
   end
@@ -67,7 +70,8 @@ defmodule AshSitemap.MixProject do
         "spark.replace_doc_links",
         "spark.cheat_sheets_in_search"
       ],
-      "spark.cheat_sheets": "spark.cheat_sheets --extensions AshSitemap.Resource",
+      "spark.cheat_sheets":
+        "spark.cheat_sheets --extensions AshSitemap.Resource",
       "spark.cheat_sheets_in_search":
         "spark.cheat_sheets_in_search --extensions AshSitemap.Resource",
       "spark.formatter": [
