@@ -71,8 +71,15 @@ defmodule AshSitemap.MixProject do
       ],
       groups_for_modules: [
         AshSitemap: [
-          AshSitemap,
-          AshSitemap.Resource
+          AshSitemap
+        ],
+        Sitemaps: [
+          AshSitemap.Sitemaps.Sitemap,
+          AshSitemap.Sitemaps.SitemapIndex,
+          AshSitemap.Sitemaps.News,
+          AshSitemap.Sitemaps.Image,
+          AshSitemap.Sitemaps.Video,
+          AshSitemap.Sitemaps.PageMap
         ],
         Introspection: [
           AshSitemap.Resource.Info
