@@ -60,6 +60,7 @@ defmodule AshSitemap.MixProject do
       main: "readme",
       extras: [
         "documentation/dsls/DSL-AshSitemap.Resource.md",
+        "documentation/topics/sitemaps.md",
         # {"documentation/dsls/DSL-AshSitemap.Resource.md",
         #  search_data: Spark.Docs.search_data_for(AshSitemap.Resource.Dsl)},
         "README.md": [title: "Guide"],

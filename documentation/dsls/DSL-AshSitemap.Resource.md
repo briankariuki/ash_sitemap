@@ -14,9 +14,9 @@ See the [sitemaps guide](/documentation/topics/sitemaps.md) for more.
 
 ### Nested DSLs
  * [sitemap](#sitemaps-sitemap)
-   * video
-   * image
    * news
+   * image
+   * video
 
 
 
@@ -31,9 +31,9 @@ sitemap name
 
 
 ### Nested DSLs
- * [video](#sitemaps-sitemap-video)
- * [image](#sitemaps-sitemap-image)
  * [news](#sitemaps-sitemap-news)
+ * [image](#sitemaps-sitemap-image)
+ * [video](#sitemaps-sitemap-video)
 
 
 ### Examples
@@ -64,6 +64,78 @@ sitemap name
 | [`priority`](#sitemaps-sitemap-priority){: #sitemaps-sitemap-priority .spark-required} | `float` |  | The priority of the sitemap content |
 | [`read_action`](#sitemaps-sitemap-read_action){: #sitemaps-sitemap-read_action } | `atom` |  | The read action to use when fetching the records.           By default will use the`read` action if any |
 
+
+### sitemaps.sitemap.news
+
+
+
+
+
+
+
+
+
+### Options
+
+| Name | Type | Default | Docs |
+|------|------|---------|------|
+| [`publication_date`](#sitemaps-sitemap-news-publication_date){: #sitemaps-sitemap-news-publication_date .spark-required} | `String.t \| atom \| (map -> String.t)` |  | Article publication date in W3C format, specifying the complete date (YYYY-MM-DD) with optional timestamp. See: http://www.w3.org/TR/NOTE-datetime Please ensure that you give the original date and time at which the article was published on your site; do not give the time at which the article was added to your Sitemap. Required. |
+| [`publication_name`](#sitemaps-sitemap-news-publication_name){: #sitemaps-sitemap-news-publication_name .spark-required} | `String.t \| atom \| (map -> String.t)` |  | Name of the news publication. It must exactly match the name as it appears on your articles in news.google.com, omitting any trailing parentheticals. For example, if the name appears in Google News as 'The Example Times (subscription)', you should use 'The Example Times'. Required. |
+| [`publication_language`](#sitemaps-sitemap-news-publication_language){: #sitemaps-sitemap-news-publication_language .spark-required} | `String.t \| atom \| (map -> String.t)` |  | Language of the publication. It should be an ISO 639 Language Code (either 2 or 3 letters); see: http://www.loc.gov/standards/iso639-2/php/code_list.php Exception: For Chinese, please use zh-cn for Simplified Chinese or zh-tw for Traditional Chinese. Required. |
+| [`title`](#sitemaps-sitemap-news-title){: #sitemaps-sitemap-news-title .spark-required} | `String.t \| atom` |  | Title of the news article. Required. Note: The title may be truncated for space reasons when shown on Google News. |
+| [`access`](#sitemaps-sitemap-news-access){: #sitemaps-sitemap-news-access } | `String.t \| atom \| (map -> String.t)` |  | Accessibility of the article. Required if access is not open, otherwise this tag should be omitted. |
+| [`genres`](#sitemaps-sitemap-news-genres){: #sitemaps-sitemap-news-genres } | `String.t \| atom \| (map -> String.t)` |  | A comma-separated list of properties characterizing the content of the article, such as 'PressRelease' or 'UserGenerated'. For a list of possible values, see: https://www.google.com/support/news_pub/bin/answer.py?answer=93992 Required if any genres apply to the article, otherwise this tag should be omitted. |
+| [`keywords`](#sitemaps-sitemap-news-keywords){: #sitemaps-sitemap-news-keywords } | `list(String.t) \| (map -> list(String.t))` |  | Comma-separated list of keywords describing the topic of the article. Keywords may be drawn from, but are not limited to, the list of existing Google News keywords; see: https://www.google.com/support/news_pub/bin/answer.py?answer=116037 Optional. |
+| [`stock_tickers`](#sitemaps-sitemap-news-stock_tickers){: #sitemaps-sitemap-news-stock_tickers } | `list(String.t) \| (map -> list(String.t))` |  | Comma-separated list of up to 5 stock tickers of the companies, mutual funds, or other financial entities that are the main subject of the article. Relevant primarily for business articles. Each ticker must be prefixed by the name of its stock exchange, and must match its entry in Google Finance. For example, 'NASDAQ:AMAT' (but not 'NASD:AMAT'), or 'BOM:500325' (but not 'BOM:RIL'). Optional. |
+
+
+
+
+
+### Introspection
+
+Target: `AshSitemap.Sitemaps.News`
+
+### sitemaps.sitemap.image
+
+
+
+
+
+
+### Examples
+```
+  sitemap do
+    path "index.html"
+    priority 0.5
+
+    image do
+      loc &1.image_url end
+    end
+  end
+
+```
+
+
+
+
+### Options
+
+| Name | Type | Default | Docs |
+|------|------|---------|------|
+| [`loc`](#sitemaps-sitemap-image-loc){: #sitemaps-sitemap-image-loc .spark-required} | `String.t \| (map -> String.t)` |  | The URL of the image. |
+| [`caption`](#sitemaps-sitemap-image-caption){: #sitemaps-sitemap-image-caption } | `String.t \| (map -> String.t)` |  | The caption of the image. |
+| [`geo_location`](#sitemaps-sitemap-image-geo_location){: #sitemaps-sitemap-image-geo_location } | `String.t \| (map -> String.t)` |  | The geographic location of the image. For example, 'Limerick, Ireland'. |
+| [`title`](#sitemaps-sitemap-image-title){: #sitemaps-sitemap-image-title } | `String.t \| (map -> String.t)` |  | The title of the image. |
+| [`license`](#sitemaps-sitemap-image-license){: #sitemaps-sitemap-image-license } | `String.t \| (map -> String.t)` |  | A URL to the license of the image. |
+
+
+
+
+
+### Introspection
+
+Target: `AshSitemap.Sitemaps.Image`
 
 ### sitemaps.sitemap.video
 
@@ -121,78 +193,6 @@ sitemap name
 ### Introspection
 
 Target: `AshSitemap.Sitemaps.Video`
-
-### sitemaps.sitemap.image
-
-
-
-
-
-
-### Examples
-```
-  sitemap do
-    path "index.html"
-    priority 0.5
-
-    image do
-      loc &1.image_url end
-    end
-  end
-
-```
-
-
-
-
-### Options
-
-| Name | Type | Default | Docs |
-|------|------|---------|------|
-| [`loc`](#sitemaps-sitemap-image-loc){: #sitemaps-sitemap-image-loc .spark-required} | `String.t \| (map -> String.t)` |  | The URL of the image. |
-| [`caption`](#sitemaps-sitemap-image-caption){: #sitemaps-sitemap-image-caption } | `String.t \| (map -> String.t)` |  | The caption of the image. |
-| [`geo_location`](#sitemaps-sitemap-image-geo_location){: #sitemaps-sitemap-image-geo_location } | `String.t \| (map -> String.t)` |  | The geographic location of the image. For example, 'Limerick, Ireland'. |
-| [`title`](#sitemaps-sitemap-image-title){: #sitemaps-sitemap-image-title } | `String.t \| (map -> String.t)` |  | The title of the image. |
-| [`license`](#sitemaps-sitemap-image-license){: #sitemaps-sitemap-image-license } | `String.t \| (map -> String.t)` |  | A URL to the license of the image. |
-
-
-
-
-
-### Introspection
-
-Target: `AshSitemap.Sitemaps.Image`
-
-### sitemaps.sitemap.news
-
-
-
-
-
-
-
-
-
-### Options
-
-| Name | Type | Default | Docs |
-|------|------|---------|------|
-| [`publication_date`](#sitemaps-sitemap-news-publication_date){: #sitemaps-sitemap-news-publication_date .spark-required} | `String.t \| atom \| (map -> String.t)` |  | Article publication date in W3C format, specifying the complete date (YYYY-MM-DD) with optional timestamp. See: http://www.w3.org/TR/NOTE-datetime Please ensure that you give the original date and time at which the article was published on your site; do not give the time at which the article was added to your Sitemap. Required. |
-| [`publication_name`](#sitemaps-sitemap-news-publication_name){: #sitemaps-sitemap-news-publication_name .spark-required} | `String.t \| atom \| (map -> String.t)` |  | Name of the news publication. It must exactly match the name as it appears on your articles in news.google.com, omitting any trailing parentheticals. For example, if the name appears in Google News as 'The Example Times (subscription)', you should use 'The Example Times'. Required. |
-| [`publication_language`](#sitemaps-sitemap-news-publication_language){: #sitemaps-sitemap-news-publication_language .spark-required} | `String.t \| atom \| (map -> String.t)` |  | Language of the publication. It should be an ISO 639 Language Code (either 2 or 3 letters); see: http://www.loc.gov/standards/iso639-2/php/code_list.php Exception: For Chinese, please use zh-cn for Simplified Chinese or zh-tw for Traditional Chinese. Required. |
-| [`title`](#sitemaps-sitemap-news-title){: #sitemaps-sitemap-news-title .spark-required} | `String.t \| atom` |  | Title of the news article. Required. Note: The title may be truncated for space reasons when shown on Google News. |
-| [`access`](#sitemaps-sitemap-news-access){: #sitemaps-sitemap-news-access } | `String.t \| atom \| (map -> String.t)` |  | Accessibility of the article. Required if access is not open, otherwise this tag should be omitted. |
-| [`genres`](#sitemaps-sitemap-news-genres){: #sitemaps-sitemap-news-genres } | `String.t \| atom \| (map -> String.t)` |  | A comma-separated list of properties characterizing the content of the article, such as 'PressRelease' or 'UserGenerated'. For a list of possible values, see: https://www.google.com/support/news_pub/bin/answer.py?answer=93992 Required if any genres apply to the article, otherwise this tag should be omitted. |
-| [`keywords`](#sitemaps-sitemap-news-keywords){: #sitemaps-sitemap-news-keywords } | `list(String.t) \| (map -> list(String.t))` |  | Comma-separated list of keywords describing the topic of the article. Keywords may be drawn from, but are not limited to, the list of existing Google News keywords; see: https://www.google.com/support/news_pub/bin/answer.py?answer=116037 Optional. |
-| [`stock_tickers`](#sitemaps-sitemap-news-stock_tickers){: #sitemaps-sitemap-news-stock_tickers } | `list(String.t) \| (map -> list(String.t))` |  | Comma-separated list of up to 5 stock tickers of the companies, mutual funds, or other financial entities that are the main subject of the article. Relevant primarily for business articles. Each ticker must be prefixed by the name of its stock exchange, and must match its entry in Google Finance. For example, 'NASDAQ:AMAT' (but not 'NASD:AMAT'), or 'BOM:500325' (but not 'BOM:RIL'). Optional. |
-
-
-
-
-
-### Introspection
-
-Target: `AshSitemap.Sitemaps.News`
 
 
 
