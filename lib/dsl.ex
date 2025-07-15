@@ -3,6 +3,62 @@ defmodule AshSitemap.Resource.Dsl do
   Ash resource extension for generating sitemaps.
   """
 
+  @dataobject_attribute %Spark.Dsl.Entity{
+    name: :attribute,
+    target: AshSitemap.Sitemaps.PageMap.DataObject.Attribute,
+    docs: """
+    Either 'value' attribute or text content must be set, but not both.
+    """,
+    examples: [],
+    schema: [
+      name: [
+        type: {
+          :or,
+          [:string, :atom, {:fun, [:map], :string}]
+        },
+        required: true,
+        doc: "Name of the attribute."
+      ],
+      value: [
+        type: {
+          :or,
+          [:string, :atom, {:fun, [:map], :string}]
+        },
+        required: false,
+        doc: "Value of the attribute."
+      ]
+    ]
+  }
+
+  @dataobject %Spark.Dsl.Entity{
+    name: :dataobject,
+    examples: [],
+    target: AshSitemap.Sitemaps.PageMap.DataObject,
+    schema: [
+      type: [
+        type: {
+          :or,
+          [:string, :atom, {:fun, [:map], :string}]
+        },
+        required: true,
+        doc: "Type of the object."
+      ],
+      id: [
+        type: {
+          :or,
+          [:string, :atom, {:fun, [:map], :string}]
+        },
+        required: false,
+        doc: "ID of the object."
+      ]
+    ],
+    entities: [
+      attribute: [
+        @dataobject_attribute
+      ]
+    ]
+  }
+
   @news %Spark.Dsl.Entity{
     name: :news,
     target: AshSitemap.Sitemaps.News,
@@ -445,6 +501,16 @@ defmodule AshSitemap.Resource.Dsl do
     ]
   }
 
+  @pagemap %Spark.Dsl.Entity{
+    name: :pagemap,
+    target: AshSitemap.Sitemaps.PageMap,
+    examples: [],
+    schema: [],
+    entities: [
+      dataobject: [@dataobject]
+    ]
+  }
+
   @sitemap %Spark.Dsl.Entity{
     name: :sitemap,
     target: AshSitemap.Sitemaps.Sitemap,
@@ -492,9 +558,10 @@ defmodule AshSitemap.Resource.Dsl do
     entities: [
       news: [@news],
       image: [@image],
-      video: [@video]
+      video: [@video],
+      pagemap: [@pagemap]
     ],
-    singleton_entity_keys: [:news],
+    singleton_entity_keys: [:news, :pagemap],
     args: [:name]
   }
 

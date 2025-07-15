@@ -12,7 +12,6 @@ defmodule AshSitemap.MixProject do
       version: @version,
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
-      # consolidate_protocols: Mix.env() != :test,
       consolidate_protocols: Mix.env() == :prod,
       package: package(),
       deps: deps(),
