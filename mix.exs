@@ -12,11 +12,14 @@ defmodule AshSitemap.MixProject do
       version: @version,
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
-      consolidate_protocols: Mix.env() != :test,
+      # consolidate_protocols: Mix.env() != :test,
+      consolidate_protocols: Mix.env() == :prod,
       package: package(),
       deps: deps(),
       docs: docs(),
-      aliases: aliases()
+      aliases: aliases(),
+      source_url: @github_url,
+      homepage_url: @github_url
     ]
   end
 
@@ -40,26 +43,41 @@ defmodule AshSitemap.MixProject do
     [
       {:ash, "~> 3.5"},
       {:xml_builder, "~> 2.4"},
-      {:spark, ">= 2.2.65 and < 3.0.0-0"},
+      {:spark, "~> 2.2 and >= 2.2.10"},
       {:ex_doc, "~> 0.38", only: :dev, runtime: false},
       {:ecto_sql, "~> 3.13"},
       {:sourceror, "~> 1.7", only: [:dev, :test]},
-      {:progress_bar, "~> 3.0"}
+      {:igniter, "~> 0.3 and >= 0.3.58", optional: true, only: [:dev, :test]},
+      {:progress_bar, "~> 3.0", only: [:dev, :test]}
     ]
   end
 
-  def docs() do
+  defp docs do
     [
       homepage_url: @github_url,
       source_url: @github_url,
       source_ref: "v#{@version}",
       main: "readme",
       extras: [
+        "documentation/dsls/DSL-AshSitemap.Resource.md",
+        # {"documentation/dsls/DSL-AshSitemap.Resource.md",
+        #  search_data: Spark.Docs.search_data_for(AshSitemap.Resource.Dsl)},
         "README.md": [title: "Guide"],
-        "LICENSE.md": [title: "License"],
-        "documentation/dsls/DSL:-AshSitemap.Resource.md": [
-          title: "DSL: AshSitemap.Resource"
+        "LICENSE.md": [title: "License"]
+      ],
+      groups_for_extras: [
+        Topics: ~r'documentation/topics',
+        DSLs: ~r'documentation/dsls'
+      ],
+      groups_for_modules: [
+        AshSitemap: [
+          AshSitemap,
+          AshSitemap.Resource
+        ],
+        Introspection: [
+          AshSitemap.Resource.Info
         ]
+        # Internals: ~r/.*/
       ]
     ]
   end
@@ -73,11 +91,11 @@ defmodule AshSitemap.MixProject do
         "spark.cheat_sheets_in_search"
       ],
       "spark.cheat_sheets":
-        "spark.cheat_sheets --extensions AshSitemap.Resource",
+        "spark.cheat_sheets --extensions AshSitemap.Resource.Dsl",
       "spark.cheat_sheets_in_search":
-        "spark.cheat_sheets_in_search --extensions AshSitemap.Resource",
+        "spark.cheat_sheets_in_search --extensions AshSitemap.Resource.Dsl",
       "spark.formatter": [
-        "spark.formatter --extensions AshSitemap.Resource",
+        "spark.formatter --extensions AshSitemap.Resource.Dsl",
         "format .formatter.exs"
       ]
     ]
