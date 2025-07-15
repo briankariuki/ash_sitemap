@@ -21,6 +21,7 @@ spark_locals_without_parens = [
   loc: 1,
   news: 0,
   news: 1,
+  path: 1,
   platform_list: 1,
   platform_relationship?: 1,
   player_loc: 1,
@@ -50,7 +51,6 @@ spark_locals_without_parens = [
   title: 1,
   uploader: 1,
   uploader_info: 1,
-  url: 1,
   video: 0,
   video: 1,
   view_count: 1

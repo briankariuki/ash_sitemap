@@ -6,6 +6,7 @@ defmodule AshSitemap.Build do
 
   import XmlBuilder
 
+  @doc false
   def to_xml(data) do
     hostname = AshSitemap.Config.hostname()
 
