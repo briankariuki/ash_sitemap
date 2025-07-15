@@ -3,7 +3,7 @@
 
 # AshSitemap
 
-AshSitemap is an ash extension that helps in generating sitemaps from your ash resources.
+AshSitemap is an ash extension that generates sitemaps from your ash resources.
 
 
 ## Getting Started
