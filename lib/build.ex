@@ -7,11 +7,13 @@ defmodule AshSitemap.Build do
   import XmlBuilder
 
   def to_xml(data) do
+    hostname = AshSitemap.Config.hostname()
+
     elms =
       element(
         :url,
         Helpers.eraser([
-          element(:loc, Path.join(data.host, data.path || "")),
+          element(:loc, Path.join(hostname, data.path || "")),
           element(
             :lastmod,
             Helpers.iso8601(Map.get(data, :lastmod, DateTime.utc_now()))
@@ -23,6 +25,8 @@ defmodule AshSitemap.Build do
       )
 
     news = Map.get(data, :news)
+    images = Map.get(data, :image)
+    videos = Map.get(data, :video)
     mobile = Map.get(data, :mobile)
     geo = Map.get(data, :geo)
     pagemap = Map.get(data, :pagemap)
@@ -30,25 +34,11 @@ defmodule AshSitemap.Build do
     elms = ifput(mobile, elms, &append_last(&1, mobile()))
     elms = ifput(geo, elms, &append_last(&1, geo(geo)))
     elms = ifput(news, elms, &append_last(&1, news(news)))
+    elms = ifput(images, elms, &append_last(&1, images(images)))
+    elms = ifput(videos, elms, &append_last(&1, videos(videos)))
     elms = ifput(pagemap, elms, &append_last(&1, pagemap(pagemap)))
 
     elms
-  end
-
-  defp ifput(bool, elements, fun) do
-    if bool do
-      fun.(elements)
-    else
-      elements
-    end
-  end
-
-  defp append_last(elements, element) do
-    combine = elem(elements, 2) ++ [element]
-
-    elements
-    |> Tuple.delete_at(2)
-    |> Tuple.append(combine)
   end
 
   @doc """
@@ -89,11 +79,13 @@ defmodule AshSitemap.Build do
   end
 
   def images([data | tail], elements) do
+    hostname = AshSitemap.Config.hostname()
+
     elm =
       element(
         :"image:image",
         Helpers.eraser([
-          element(:"image:loc", data[:loc]),
+          element(:"image:loc", Path.join(hostname, data[:loc] || "")),
           unless(is_nil(data[:title]),
             do: element(:"image:title", data[:title])
           ),
@@ -147,7 +139,7 @@ defmodule AshSitemap.Build do
   end
 
   @doc """
-  Generate index url
+  Generates a sitemap index element
   """
 
   def index(link, opts \\ []) do
@@ -401,7 +393,7 @@ defmodule AshSitemap.Build do
     videos(tail, elements ++ [elm])
   end
 
-  def video_price_attrs(data) do
+  defp video_price_attrs(data) do
     attrs = %{}
     attrs = Map.put(attrs, :currency, data[:price_currency])
 
@@ -434,5 +426,21 @@ defmodule AshSitemap.Build do
     attrs = Map.put(attrs, :media, data[:media])
 
     alternates(tail, elements ++ [element(:"xhtml:link", attrs)])
+  end
+
+  defp ifput(bool, elements, fun) do
+    if bool do
+      fun.(elements)
+    else
+      elements
+    end
+  end
+
+  defp append_last(elements, element) do
+    combine = elem(elements, 2) ++ [element]
+
+    elements
+    |> Tuple.delete_at(2)
+    |> Tuple.insert_at(2, combine)
   end
 end

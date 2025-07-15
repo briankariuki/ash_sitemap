@@ -8,12 +8,14 @@ defmodule AshSitemap.Gen do
     """
     ## Positional Arguments
 
-    - `domain` - The API (e.g. "Shop").
+    - `domain` - The domain (e.g. "Shop").
     - `resource` - The resource (e.g. "Product").
 
     ## Options
 
+    - `--hostname` - The base url of the website serving the content in the resource.
     - `--resource-plural` - The plural resource name (e.g. "products")
+    - `--read-action` - The action to use when getting the records from the resource (e.g. "read")
     - `--urls-limit` - The maximum number of urls per sitemap file (default: 50000)
     - `--query-limit` - The maximum number of records to fetch for each read action (default: 250)
     """
@@ -37,17 +39,29 @@ defmodule AshSitemap.Gen do
       raise "Expected second argument to be a resource module, not an option"
     end
 
-    {parsed, _, _} =
-      OptionParser.parse(rest,
-        strict: [resource_plural: :string, urls_limit: :integer]
-      )
-
     domain = Module.concat([domain])
     resource = Module.concat([resource])
 
+    {parsed, _, _} =
+      OptionParser.parse(rest,
+        strict: [
+          resource_plural: :string,
+          read_action: :string,
+          urls_limit: :integer,
+          query_limit: :integer
+        ]
+      )
+
+    parsed = Keyword.put(parsed, :interactive?, true)
+
     parsed =
-      Keyword.put_new_lazy(rest, :resource_plural, fn ->
+      Keyword.put_new_lazy(parsed, :resource_plural, fn ->
         plural_name!(resource, parsed)
+      end)
+
+    parsed =
+      Keyword.put_new_lazy(parsed, :read_action, fn ->
+        action!(resource, :read, parsed)
       end)
 
     parsed =
@@ -91,6 +105,74 @@ defmodule AshSitemap.Gen do
 
       plural_name ->
         to_string(plural_name)
+    end
+  end
+
+  defp action!(resource, type, opts) do
+    action =
+      case opts[:"#{type}_action"] do
+        nil ->
+          Ash.Resource.Info.primary_action(resource, type)
+
+        action ->
+          case Ash.Resource.Info.action(resource, action, type) do
+            nil ->
+              raise "No such #{type} action #{inspect(action)}"
+
+            action ->
+              action
+          end
+      end
+
+    if opts[:interactive?] && !action do
+      actions =
+        resource
+        |> Ash.Resource.Info.actions()
+        |> Enum.filter(&(&1.type == type))
+
+      if Enum.empty?(actions) do
+        if Mix.shell().yes?(
+             "Primary #{type} action not found, and a #{type} action not supplied. Would you like to create one?"
+           ) do
+          if Mix.shell().yes?("""
+             This is a manual step currently. Please add a primary #{type} action or designate one as primary, and then select Y.
+             Press anything else to cancel and proceed with no update action.
+             """) do
+            action!(resource, type, opts)
+          end
+        end
+      else
+        if Mix.shell().yes?(
+             "Primary #{type} action not found. Would you like to use one of the following?:\n#{Enum.map_join(actions, "\n", &"- #{&1.name}")}"
+           ) do
+          action =
+            Mix.shell().prompt(
+              """
+              Please enter the name of the action you would like to use.
+              Press enter to cancel and proceed with no #{type} action.
+              >
+              """
+              |> String.trim()
+            )
+            |> String.trim()
+
+          case action do
+            empty when empty in ["", nil] ->
+              raise(
+                "Must configure primary read action on resource or provide --read-action"
+              )
+
+            action ->
+              action!(
+                resource,
+                type,
+                Keyword.put(opts, :"#{type}_action", action)
+              )
+          end
+        end
+      end
+    else
+      action
     end
   end
 end

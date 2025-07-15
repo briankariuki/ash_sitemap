@@ -33,21 +33,28 @@ defmodule Example.Video do
     end
   end
 
-  sitemap do
-    host "https://example.com"
-    compress true
-    read_action :read
-    file_path "/priv/sitemap.xml"
+  # sitemap do
+  #   host "https://example.com"
+  #   compress true
+  #   read_action :read
+  #   file_path "/priv/sitemap.xml"
 
-    url("index.html",
-      priority: 0.5,
-      news: [
-        title: :title,
-        publication_name: "Example News",
-        publication_language: "en",
-        publication_date: "2021-01-01",
-        keywords: ["hello", "world"]
-      ]
-    )
+  #   url("index.html",
+  #     priority: 0.5,
+  #     news: [
+  #       title: :title,
+  #       publication_name: "Example News",
+  #       publication_language: "en",
+  #       publication_date: "2021-01-01",
+  #       keywords: ["hello", "world"]
+  #     ]
+  #   )
+  # end
+
+  sitemaps do
+    sitemap :videos do
+      path "videos/index.html"
+      priority 0.5
+    end
   end
 end

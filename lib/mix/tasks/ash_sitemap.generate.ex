@@ -1,8 +1,8 @@
-defmodule Mix.Tasks.AshSitemap.Gen.Sitemap do
+defmodule Mix.Tasks.AshSitemap.Generate do
   @moduledoc """
-  Generates sitemaps for a given api and resource.
+  Generates sitemaps for a given domain and resource.
 
-  The api and resource must already exist, this task does not define them.
+  The domain and resource must already exist, this task does not define them.
 
   #{AshSitemap.Gen.docs()}
 
@@ -24,6 +24,16 @@ defmodule Mix.Tasks.AshSitemap.Gen.Sitemap do
       )
     end
 
-    AshSitemap.Gen.Sitemap.generate_from_cli(argv)
+    generate_from_cli(argv)
+  end
+
+  def generate_from_cli(argv) do
+    {domain, resource, opts, _rest} = AshSitemap.Gen.parse_opts(argv)
+
+    AshSitemap.generate(
+      domain,
+      resource,
+      opts
+    )
   end
 end

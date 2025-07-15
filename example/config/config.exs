@@ -7,6 +7,10 @@
 # General application configuration
 import Config
 
+
+config :ash_sitemap,
+  hostname: "https://example.com"
+
 config :example,
   ash_domains: [Example.News]
 

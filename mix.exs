@@ -38,11 +38,13 @@ defmodule AshSitemap.MixProject do
 
   defp deps do
     [
-      {:ash, "~> 3.4"},
-      {:xml_builder, "~> 2.1"},
-      {:spark, "~> 2.2.10 and < 3.0.0"},
-      {:ex_doc, "~> 0.32", only: :dev, runtime: false},
-      {:ecto_sql, "~> 3.10"}
+      {:ash, "~> 3.5"},
+      {:xml_builder, "~> 2.4"},
+      {:spark, ">= 2.2.65 and < 3.0.0-0"},
+      {:ex_doc, "~> 0.38", only: :dev, runtime: false},
+      {:ecto_sql, "~> 3.13"},
+      {:sourceror, "~> 1.7", only: [:dev, :test]},
+      {:progress_bar, "~> 3.0"}
     ]
   end
 

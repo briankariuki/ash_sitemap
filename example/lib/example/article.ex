@@ -33,21 +33,25 @@ defmodule Example.Article do
     end
   end
 
-  sitemap do
-    host "https://example.com"
-    compress true
-    read_action :read
-    file_path "/priv/sitemap.xml"
+  sitemaps do
+    sitemap :articles do
+      path "index.html"
+      priority 0.5
 
-    url("index.html",
-      priority: 0.5,
-      news: [
-        title: :title,
-        publication_name: "Example News",
-        publication_language: "en",
-        publication_date: "2021-01-01",
-        keywords: ["hello", "world"]
-      ]
-    )
+      news do
+        title :title
+        publication_name "Example News"
+        publication_language "en"
+        publication_date "2021-01-01"
+      end
+
+      image do
+        loc "image.jpg"
+      end
+
+      image do
+        loc "image2.jpg"
+      end
+    end
   end
 end
