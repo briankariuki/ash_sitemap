@@ -17,6 +17,9 @@ See the [sitemaps guide](/documentation/topics/sitemaps.md) for more.
    * news
    * image
    * video
+   * pagemap
+     * dataobject
+       * attribute
 
 
 
@@ -34,6 +37,9 @@ sitemap name
  * [news](#sitemaps-sitemap-news)
  * [image](#sitemaps-sitemap-image)
  * [video](#sitemaps-sitemap-video)
+ * [pagemap](#sitemaps-sitemap-pagemap)
+   * dataobject
+     * attribute
 
 
 ### Examples
@@ -193,6 +199,79 @@ Target: `AshSitemap.Sitemaps.Image`
 ### Introspection
 
 Target: `AshSitemap.Sitemaps.Video`
+
+### sitemaps.sitemap.pagemap
+
+
+
+
+### Nested DSLs
+ * [dataobject](#sitemaps-sitemap-pagemap-dataobject)
+   * attribute
+
+
+
+
+
+
+### sitemaps.sitemap.pagemap.dataobject
+
+
+
+
+### Nested DSLs
+ * [attribute](#sitemaps-sitemap-pagemap-dataobject-attribute)
+
+
+
+
+
+### Options
+
+| Name | Type | Default | Docs |
+|------|------|---------|------|
+| [`type`](#sitemaps-sitemap-pagemap-dataobject-type){: #sitemaps-sitemap-pagemap-dataobject-type .spark-required} | `String.t \| atom \| (map -> String.t)` |  | Type of the object. |
+| [`id`](#sitemaps-sitemap-pagemap-dataobject-id){: #sitemaps-sitemap-pagemap-dataobject-id } | `String.t \| atom \| (map -> String.t)` |  | ID of the object. |
+
+
+### sitemaps.sitemap.pagemap.dataobject.attribute
+
+
+
+
+
+
+
+
+
+### Options
+
+| Name | Type | Default | Docs |
+|------|------|---------|------|
+| [`name`](#sitemaps-sitemap-pagemap-dataobject-attribute-name){: #sitemaps-sitemap-pagemap-dataobject-attribute-name .spark-required} | `String.t \| atom \| (map -> String.t)` |  | Name of the attribute. |
+| [`value`](#sitemaps-sitemap-pagemap-dataobject-attribute-value){: #sitemaps-sitemap-pagemap-dataobject-attribute-value } | `String.t \| atom \| (map -> String.t)` |  | Value of the attribute. |
+
+
+
+
+
+### Introspection
+
+Target: `AshSitemap.Sitemaps.PageMap.DataObject.Attribute`
+
+
+
+
+### Introspection
+
+Target: `AshSitemap.Sitemaps.PageMap.DataObject`
+
+
+
+
+### Introspection
+
+Target: `AshSitemap.Sitemaps.PageMap`
 
 
 
