@@ -77,8 +77,8 @@ defmodule AshSitemap.MixProject do
         ],
         Introspection: [
           AshSitemap.Resource.Info
-        ]
-        # Internals: ~r/.*/
+        ],
+        Internals: ~r/.*/
       ]
     ]
   end
