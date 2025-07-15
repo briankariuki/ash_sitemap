@@ -61,7 +61,7 @@ defmodule AshSitemap.MixProject do
         "documentation/dsls/DSL-AshSitemap.Resource.md",
         "documentation/topics/sitemaps.md",
         # {"documentation/dsls/DSL-AshSitemap.Resource.md",
-        #  search_data: Spark.Docs.search_data_for(AshSitemap.Resource.Dsl)},
+        #  search_data: Spark.Docs.search_data_for(AshSitemap.Resource)},
         "README.md": [title: "Guide"],
         "LICENSE.md": [title: "License"]
       ],
@@ -91,11 +91,11 @@ defmodule AshSitemap.MixProject do
         "spark.cheat_sheets_in_search"
       ],
       "spark.cheat_sheets":
-        "spark.cheat_sheets --extensions AshSitemap.Resource.Dsl",
+        "spark.cheat_sheets --extensions AshSitemap.Resource",
       "spark.cheat_sheets_in_search":
-        "spark.cheat_sheets_in_search --extensions AshSitemap.Resource.Dsl",
+        "spark.cheat_sheets_in_search --extensions AshSitemap.Resource",
       "spark.formatter": [
-        "spark.formatter --extensions AshSitemap.Resource.Dsl",
+        "spark.formatter --extensions AshSitemap.Resource",
         "format .formatter.exs"
       ]
     ]
