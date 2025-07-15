@@ -490,9 +490,9 @@ defmodule AshSitemap.Resource.Dsl do
       ]
     ],
     entities: [
-      video: [@video],
+      news: [@news],
       image: [@image],
-      news: [@news]
+      video: [@video]
     ],
     singleton_entity_keys: [:news],
     args: [:name]
