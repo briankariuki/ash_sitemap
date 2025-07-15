@@ -20,7 +20,7 @@ end
 ```
 
 
-## Contributions
+### Inspiration
 
 Sitemap - https://github.com/ikeikeikeike/sitemap
 
